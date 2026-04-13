@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. Rutas de la API -> Redirigir al controlador frontal de PHP
+  RewriteRule ^api/(.*)$ backend/public/index.php [L,QSA]
+
+  # 2. React Router SPA Fallback (Cualquier ruta que no sea un archivo físico, carga index.html)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [QSA,L]
+
+</IfModule>

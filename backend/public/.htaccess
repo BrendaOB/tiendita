@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Previene re-directs infinitos y permite a Apache servir archivos reales (ej. imagenes de public) si existiesen
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Todo lo demas va a index.php para el Front Controller pattern
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

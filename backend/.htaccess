@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Asegurar que el header 'Authorization: Bearer...' se pase a PHP (Crucial para JWT)
+  RewriteCond %{HTTP:Authorization} ^(.*)
+  RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+  SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+  # Denegar visualización de directorios por seguridad
+  Options -Indexes
+
+  # Proteger carpetas internas
+  RewriteRule ^src/.*$ - [F]
+  RewriteRule ^Config/.*$ - [F]
+
+</IfModule>
+
+<IfModule mod_headers.c>
+  # CORS Globales (Soporte nativo en Apache por si el script PHP crashea)
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+  Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+</IfModule>
